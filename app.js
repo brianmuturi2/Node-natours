@@ -25,6 +25,25 @@ app.get('/api/v1/tours', (req, res) => {
     })
 })
 
+// Get tour by id
+app.get('/api/v1/tours/:id', (req, res) => {
+  console.log('request params is ', req.params);
+  const tour = tours.find(cur => cur.id === +req.params.id);
+  if (tour) {
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour
+      }
+    })
+  } else {
+    res.status(404).json({
+      status: 'error'
+    })
+  }
+
+})
+
 // Post tours
 app.post('/api/v1/tours', (req, res) => {
   const id = +((tours[tours.length-1].id) + 1);
