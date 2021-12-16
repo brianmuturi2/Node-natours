@@ -59,6 +59,26 @@ app.post('/api/v1/tours', (req, res) => {
   });
 });
 
+// Patch tour
+app.patch('/api/v1/tours/:id', (req, res) => {
+  console.log('running');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour: tours[+req.params.id - 1]
+    }
+  })
+})
+
+// Delete tour
+app.delete('/api/v1/tours/:id', (req, res) => {
+  console.log('running');
+  res.status(204).json({
+    status: 'success',
+    data: null
+  })
+})
+
 // Start server
 const port = 3000;
 
