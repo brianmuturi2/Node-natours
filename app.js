@@ -1,23 +1,30 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
-// middleware
+/********************************************* MIDDLEWARES *********************************************/
+
 app.use(express.json());
 
-/*app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello from the server side!', app: 'natours' });
-});
-app.post('/', (req, res) => {
-  res.status(200).send('You can post to this endpoint')
-})*/
+// custom middleware
+app.use((req, res, next) => {
+  console.log('Hello from the middleware');
+  next();
+})
+
+app.use(morgan('dev'));
+
+
+/********************************************* IO OPERATIONS *********************************************/
 
 // Get tours to serve from json file
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 
-// Route handlers
+/********************************************* ROUTE HANDLERS *********************************************/
+
 // Get all tours
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -83,7 +90,8 @@ const deleteTour = (req, res) => {
   });
 }
 
-// routes
+/********************************************* ROUTES *********************************************/
+
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
 app.route('/api/v1/tours/:id').get(getTourById).patch(editTour).delete(deleteTour);
@@ -98,7 +106,15 @@ app.patch('/api/v1/tours/:id', editTour);
 
 app.delete('/api/v1/tours/:id', deleteTour);*/
 
-// Start server
+/*app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Hello from the server side!', app: 'natours' });
+});
+app.post('/', (req, res) => {
+  res.status(200).send('You can post to this endpoint')
+})*/
+
+/********************************************* SERVER *********************************************/
+
 const port = 3000;
 
 app.listen(port, () => {
