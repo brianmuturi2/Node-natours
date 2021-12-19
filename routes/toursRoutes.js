@@ -6,11 +6,6 @@ const router = express.Router();
 
 router.param('id', ToursController.checkID)
 
-const middleware = (req, res, next) => {
-  console.log('request body is ', req.body);
-  next();
-}
-
 router
   .route('/')
   .get(ToursController.getAllTours)

@@ -16,7 +16,12 @@ app.use((req, res, next) => {
 })
 
 // third party middleware
-app.use(morgan('dev'));
+if(process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// files middleware
+app.use(express.static(`${__dirname}/public`))
 
 // router middleware
 app.use('/api/v1/tours', toursRouter);
