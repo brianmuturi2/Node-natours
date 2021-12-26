@@ -11,19 +11,7 @@ mongoose.connect(DB, {
   useCreateIndex: true,
   useFindAndModify: false
 }).then(conn => {
-  console.log('DB Connection is', conn.connections)
-})
-
-const tourSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A tour must have a name']
-  },
-  rating: Number,
-  price: {
-    type: Number,
-    required: [true, 'A tour must have a price']
-  },
+  console.log('DB Connection is')
 })
 
 const port = process.env.PORT || 3000;

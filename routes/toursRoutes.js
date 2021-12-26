@@ -4,7 +4,7 @@ const ToursController = require('../controllers/toursController')
 /********************************************* MIDDLEWARES *********************************************/
 const router = express.Router();
 
-router.param('id', ToursController.checkID)
+/*router.param('id', ToursController.checkID)*/
 
 router
   .route('/')
