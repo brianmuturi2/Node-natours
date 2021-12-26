@@ -8,16 +8,6 @@ const Tour = require('../models/TourModel')
 
 /********************************************* ROUTE HANDLERS/ CONTROLLERS *********************************************/
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.hasOwnProperty('name')) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Invalid Body'
-    });
-  }
-  next();
-}
-
 // Get all tours
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -48,13 +38,21 @@ exports.getTourById = (req, res) => {
 }
 
 // Create tour
-exports.createTour = (req, res) => {
-  res.status(201).json({
-    status: 'success',
-    // data: {
-    //   tour: newTour
-    // }
-  });
+exports.createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body)
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour
+      }
+    });
+  } catch (e) {
+    res.status(400).json({
+      status: 'fail',
+      message: e
+    })
+  }
 }
 
 // Edit tour
