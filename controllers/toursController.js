@@ -11,7 +11,13 @@ const Tour = require('../models/TourModel')
 // Get all tours
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find()
+    // build query
+    const newParams = {...req.query};
+    const excludedParams = ['page', 'sort', 'limit', 'fields'];
+    excludedParams.forEach(cur => delete newParams[cur]);
+
+    const query = Tour.find(newParams)
+    const tours = await query;
     res.status(200).json({
       status: 'success',
         results: tours.length,
