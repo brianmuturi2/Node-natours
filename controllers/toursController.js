@@ -12,10 +12,17 @@ const Tour = require('../models/TourModel')
 exports.getAllTours = async (req, res) => {
   try {
     // build query
-    const newParams = {...req.query};
+    // 1A) Filtering
+    let newParams = {...req.query};
     const excludedParams = ['page', 'sort', 'limit', 'fields'];
     excludedParams.forEach(cur => delete newParams[cur]);
 
+    // 1B) Advanced Filtering
+    // mongodb filtering with operator example
+    // {difficulty: 'easy', duration: {$gte: 5}}
+    let paramString = JSON.stringify(newParams);
+    paramString = paramString.replace(/\b(gte|gt|lt|lte)\b/ig, i => `$${i}`)
+    newParams = JSON.parse(paramString);
     const query = Tour.find(newParams)
     const tours = await query;
     res.status(200).json({
