@@ -23,8 +23,26 @@ exports.getAllTours = async (req, res) => {
     let paramString = JSON.stringify(newParams);
     paramString = paramString.replace(/\b(gte|gt|lt|lte)\b/ig, i => `$${i}`)
     newParams = JSON.parse(paramString);
-    const query = Tour.find(newParams)
+    let query = Tour.find(newParams)
+
+    // 2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt')
+    }
+
+    // 3) Field limiting/ selecting fields/ projecting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields)
+    } else {
+      query = query.select('-__v')
+    }
+
     const tours = await query;
+
     res.status(200).json({
       status: 'success',
         results: tours.length,
