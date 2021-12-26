@@ -1,6 +1,14 @@
 const fs = require('fs');
 const Tour = require('../models/TourModel')
 
+/********************************************* CUSTOM MIDDLEWARE CALLBACK *********************************************/
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price'
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+  next();
+}
+
 /********************************************* IO OPERATIONS *********************************************/
 
 // Get tours to serve from json file
