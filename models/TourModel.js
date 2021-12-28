@@ -6,7 +6,9 @@ const tourSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A tour must have a name'],
     unique: true,
-    trim: true
+    trim: true,
+    maxlength: [40, 'A tour name must not exceed 40 characters'],
+    minlength: [10, 'A tour name must have more than 10 characters'],
   },
   slug: String,
   duration: {
@@ -19,11 +21,17 @@ const tourSchema = new mongoose.Schema({
   },
   difficulty: {
     type: String,
-    required: [true, 'A tour must have a difficulty']
+    required: [true, 'A tour must have a difficulty'],
+    enum: {
+      values: ['easy', 'medium', 'difficult'],
+      message: 'A tour must be easy, medium or difficult'
+    }
   },
   ratingsAverage: {
     type: Number,
-    default: 4.5
+    default: 4.5,
+    min: [1, 'Rating must be above 1.0'],
+    max: [5, 'Rating must be below 5.0'],
   },
   ratingsQuantity: {
     type: Number,
@@ -53,7 +61,11 @@ const tourSchema = new mongoose.Schema({
     default: Date.now(),
     select: false
   },
-  startDates: [Date]
+  startDates: [Date],
+  secretTour: {
+    type: Boolean,
+    default: false
+  }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
@@ -63,13 +75,29 @@ tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
 });
 
-// doc middleware running before save() or create()
+// DOC MIDDLEWARE
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
 
 tourSchema.post('save', function(doc, next) {
+  next();
+});
+
+// QUERY MIDDLEWARE
+tourSchema.pre(/^find/, function(next) {
+  this.find({secretTour: {$ne: true}})
+  next();
+});
+
+tourSchema.post(/^find/, function(docs, next) {
+  next();
+});
+
+// AGGREGATE MIDDLEWARE
+tourSchema.pre('aggregate', function(next){
+  this.pipeline().unshift({ $match: { secretTour: {$ne: true} } })
   next();
 })
 
