@@ -9,12 +9,6 @@ const usersRouter = require('./routes/usersRoutes')
 
 app.use(express.json());
 
-// custom middleware
-app.use((req, res, next) => {
-  console.log('Hello from the middleware');
-  next();
-})
-
 // third party middleware
 if(process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -26,6 +20,12 @@ app.use(express.static(`${__dirname}/public`))
 // router middleware
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server`
+  })
+})
 
 module.exports = app;
 
