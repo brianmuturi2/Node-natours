@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv')
-const app = require('./app')
+
+process.on('uncaughtException', err => {
+  process.exit(1); // code 0 is success; code 1 is uncalled exception
+})
 
 dotenv.config({path: './config.env'})
+const app = require('./app')
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
 
@@ -20,7 +24,7 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   // shut down application; e.g if app cant connect to db, it wont work thus shutting down is the best solution
   // the problem with process.exit is an abrupt way of ending a program, aborting all running or pending requests
   // you can shut down gracefully, close the server, close the application
