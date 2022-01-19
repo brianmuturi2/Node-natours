@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
-      // This only works on create and save (cant use findOneAndUpdate mongoose method)
+      // This only works on create and save (cant use findOneAndUpdate mongoose method) (mongoose doesnt keep current object in memory)
       validator: function(confirmPassword) {
         return confirmPassword === this.password;
       },
