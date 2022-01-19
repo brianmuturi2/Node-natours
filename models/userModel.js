@@ -58,6 +58,17 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
+// passwordChangedAt in database can be slow to save thus saved later after user resets password and gets new token to login and requests login
+// the login can use greater passwordChangedAt from database, thus the jwt iat will be smaller
+// if jwt is smaller, it will seem a new password reset request has been created and user will be requested to login again with newer jwt token
+// this is solved by subtracting 1 second from the new password changed at so that its always smaller than jwt iat
+
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
 }
