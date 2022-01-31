@@ -39,7 +39,7 @@ exports.getTourById = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
 
   if (!tour) {
-    return next(new AppError('No tour found with that id', 404))
+    return next(new AppError('No tour found with that id', 404));
   }
 
   res.status(200).json({
@@ -68,7 +68,7 @@ exports.editTour = catchAsync(async (req, res, next) => {
     runValidators: true
   });
   if (!tourEdited) {
-    return next(new AppError('No tour found with that id', 404))
+    return next(new AppError('No tour found with that id', 404));
   }
   res.status(200).json({
     status: 'success',
@@ -82,7 +82,7 @@ exports.editTour = catchAsync(async (req, res, next) => {
 exports.deleteTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndDelete(req.params.id);
   if (!tour) {
-    return next(new AppError('No tour found with that id', 404))
+    return next(new AppError('No tour found with that id', 404));
   }
   res.status(204).json({
     status: 'success',
@@ -138,21 +138,21 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     },
     {
       $group: {
-        _id: {$month: '$startDates'},
-        numTourStarts: {$sum: 1},
-        tours: {$push: '$name'},
+        _id: { $month: '$startDates' },
+        numTourStarts: { $sum: 1 },
+        tours: { $push: '$name' }
       }
     },
     {
-      $addFields: {month: '$_id'}
+      $addFields: { month: '$_id' }
     },
     {
       $project: {
-        _id: 0,
+        _id: 0
       }
     },
     {
-      $sort: {numTourStarts: -1}
+      $sort: { numTourStarts: -1 }
     },
     {
       $limit: 12
