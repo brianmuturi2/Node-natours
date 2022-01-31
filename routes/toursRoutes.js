@@ -1,5 +1,5 @@
 const express = require('express');
-const ToursController = require('../controllers/toursController')
+const ToursController = require('../controllers/toursController');
 const authController = require('../controllers/authController');
 
 /********************************************* MIDDLEWARES *********************************************/
