@@ -33,7 +33,7 @@ const tourSchema = new mongoose.Schema({
     type: Number,
     default: 4.5,
     min: [1, 'Rating must be above 1.0'],
-    max: [5, 'Rating must be below 5.0'],
+    max: [5, 'Rating must be below 5.0']
   },
   ratingsQuantity: {
     type: Number,
@@ -98,7 +98,7 @@ tourSchema.post('save', function(doc, next) {
 
 // QUERY MIDDLEWARE
 tourSchema.pre(/^find/, function(next) {
-  this.find({secretTour: {$ne: true}})
+  this.find({ secretTour: { $ne: true } });
   next();
 });
 
@@ -107,10 +107,10 @@ tourSchema.post(/^find/, function(docs, next) {
 });
 
 // AGGREGATE MIDDLEWARE
-tourSchema.pre('aggregate', function(next){
-  this.pipeline().unshift({ $match: { secretTour: {$ne: true} } })
+tourSchema.pre('aggregate', function(next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   next();
-})
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
