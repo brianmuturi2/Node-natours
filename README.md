@@ -26,7 +26,7 @@
     <img src="public/img/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Tours Website CMS</h3>
+<h3 align="center">Tours Website Rest API</h3>
 
   <p align="center">
     A node js restful API and server side rendered tours website.
@@ -76,7 +76,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-A tours rest api and server side rendering using pug templates
+A tours website rest api and server side rendering using pug templates
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -105,10 +105,6 @@ To get a local copy up and running follow these simple example steps.
 This is an example of how to list things you need to use the software and how to install them.
 * node
 * npm
-* ionic cli
-  ```sh
-  npm install -g @ionic/cli
-  ```
   
 ### Installation
 
@@ -122,7 +118,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 3. Spin up development server
    ```sh
-   ionic serve
+   npm start
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -132,10 +128,12 @@ This is an example of how to list things you need to use the software and how to
 
 The following are the features implemented in the application.
 
-* Firebase authentication
-* Firebase realtime database for crud operations
-* Capacitor/ pwa elements for taking images and device location
-* Google maps for taking location
+* Rest API with filtering
+* Mongo DB database for crud operations
+* Authentication with JWT
+* Authorization (user roles)
+* Sending emails with mailtrap and sendgrid
+*  Server side website rendering with pug (still in progress)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
