@@ -151,7 +151,7 @@ Brian Muturi - iambmn254@gmail.com
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [maximilian]
+* [jonas]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -172,4 +172,4 @@ Brian Muturi - iambmn254@gmail.com
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/brian-muturi2/
 [product-screenshot]: images/screenshot.png
-[maximilian]: https://www.linkedin.com/in/maximilian-schwarzmueller/?originalSubdomain=de
+[jonas]: https://codingheroes.io/
