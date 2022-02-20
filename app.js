@@ -44,7 +44,10 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Implement parameter pollution
-app.use(hpp());
+const whitelist = ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', 'difficulty', 'price']
+app.use(hpp({
+  whitelist
+}));
 
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
