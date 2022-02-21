@@ -105,7 +105,12 @@ const tourSchema = new mongoose.Schema({
       day: Number
     },
   ],
-  guides: Array
+  guides: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    },
+  ]
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
@@ -135,11 +140,12 @@ tourSchema.post(/^find/, function(docs, next) {
   next();
 });
 
-tourSchema.pre('save', async function(next) {
+/*Embedding*/
+/*tourSchema.pre('save', async function(next) {
   const guidesPromises = this.guides.map(async  id => await User.findById(id));
   this.guides = await Promise.all(guidesPromises)
   next();
-});
+});*/
 
 // AGGREGATE MIDDLEWARE
 tourSchema.pre('aggregate', function(next) {
