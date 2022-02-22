@@ -12,6 +12,7 @@ const errorController = require('./controllers/errorController');
 const app = express();
 const toursRouter = require('./routes/toursRoutes');
 const usersRouter = require('./routes/usersRoutes');
+const reviewRouter = require('./routes/reviewsRoutes');
 
 /********************************************* MIDDLEWARES *********************************************/
 
@@ -62,6 +63,8 @@ app.use((req, res, next) => {
 // router middleware
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/reviews', reviewRouter);
+
 app.all('*', (req, res, next) => {
   const errMessage = `Can't find ${req.originalUrl} on this server`;
   const errCode = 404;
