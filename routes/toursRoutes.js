@@ -1,6 +1,7 @@
 const express = require('express');
 const ToursController = require('../controllers/toursController');
 const authController = require('../controllers/authController');
+const reviewController = require('../controllers/reviewsController');
 
 /********************************************* MIDDLEWARES *********************************************/
 const router = express.Router();
@@ -34,5 +35,9 @@ router
     ToursController.deleteTour
   );
 
+// POST /tour/tourId/reviews
+router
+  .route('/:tourId/reviews')
+  .post(authController.protect, authController.restrictTo('user', 'admin', 'guide'), reviewController.createReview)
 
 module.exports = router;
