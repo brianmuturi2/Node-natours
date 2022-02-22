@@ -1,12 +1,14 @@
 const express = require('express');
 const ToursController = require('../controllers/toursController');
 const authController = require('../controllers/authController');
-const reviewController = require('../controllers/reviewsController');
+const reviewRouter = require('./../routes/reviewsRoutes');
 
 /********************************************* MIDDLEWARES *********************************************/
 const router = express.Router();
 
 /*router.param('id', ToursController.checkID)*/
+
+router.use('/:tourId/reviews', reviewRouter);
 
 router
   .route('/top-5-tours')
@@ -36,8 +38,10 @@ router
   );
 
 // POST /tour/tourId/reviews
-router
+/*router
   .route('/:tourId/reviews')
-  .post(authController.protect, authController.restrictTo('user', 'admin', 'guide'), reviewController.createReview)
+  .post(authController.protect, authController.restrictTo('user', 'admin', 'guide'), reviewController.createReview)*/
+
+
 
 module.exports = router;
