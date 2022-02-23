@@ -20,46 +20,6 @@ exports.aliasTopTours = (req, res, next) => {
 
 /********************************************* ROUTE HANDLERS/ CONTROLLERS *********************************************/
 
-// Get all tours
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Tour, req.query).filter().sort().limitFields().paginate();
-
-  const tours = await features.query;
-
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours
-    }
-  });
-});
-
-// Get tour by id
-exports.getTourById = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id).populate('reviews');
-
-  if (!tour) {
-    return next(new AppError('No tour found with that id', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour
-    }
-  });
-});
-
-// Create tour
-exports.createTour = factory.createOne(Tour);
-
-// Edit tour
-exports.editTour = factory.updateOne(Tour);
-
-// Delete tour
-exports.deleteTour = factory.deleteOne(Tour);
-
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
@@ -135,3 +95,18 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+// Get all tours
+exports.getAllTours = factory.getAll(Tour);
+
+// Get tour by id
+exports.getTourById = factory.getOne(Tour, { path: 'reviews' });
+
+// Create tour
+exports.createTour = factory.createOne(Tour);
+
+// Edit tour
+exports.editTour = factory.updateOne(Tour);
+
+// Delete tour
+exports.deleteTour = factory.deleteOne(Tour);
