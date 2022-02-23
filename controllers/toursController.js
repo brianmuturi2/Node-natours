@@ -3,6 +3,7 @@ const Tour = require('../models/TourModel');
 const APIFeatures = require('../utils/ApiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const factory = require('./handlerFactory');
 
 /********************************************* CUSTOM MIDDLEWARE CALLBACK *********************************************/
 exports.aliasTopTours = (req, res, next) => {
@@ -79,16 +80,8 @@ exports.editTour = catchAsync(async (req, res, next) => {
 });
 
 // Delete tour
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
-  if (!tour) {
-    return next(new AppError('No tour found with that id', 404));
-  }
-  res.status(204).json({
-    status: 'success',
-    message: 'Successfully deleted tour!'
-  });
-});
+
+exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
