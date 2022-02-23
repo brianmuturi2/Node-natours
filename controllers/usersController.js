@@ -14,6 +14,10 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 // User(s) route handlers TODO
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 
 exports.createUser = (req, res) => {
   res.status(500).json({
