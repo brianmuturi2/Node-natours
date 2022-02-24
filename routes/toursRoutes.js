@@ -20,27 +20,30 @@ router
 
 router
   .route('/monthly-plan/:year')
-  .get(ToursController.getMonthlyPlan);
+  .get(authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    ToursController.getMonthlyPlan
+   );
 
 router
   .route('/')
-  .get(authController.protect, ToursController.getAllTours)
-  .post(ToursController.createTour);
+  .get(ToursController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    ToursController.createTour
+  );
 
 router
   .route('/:id')
   .get(ToursController.getTourById)
-  .patch(ToursController.editTour)
+  .patch(authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    ToursController.editTour)
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     ToursController.deleteTour
   );
-
-// POST /tour/tourId/reviews
-/*router
-  .route('/:tourId/reviews')
-  .post(authController.protect, authController.restrictTo('user', 'admin', 'guide'), reviewController.createReview)*/
-
 
 module.exports = router;
