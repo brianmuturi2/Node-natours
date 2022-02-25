@@ -61,15 +61,33 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
      }
    ]);
    console.log('tour stats: ', stats);
-   await Tour.findByIdAndUpdate(tourId, {
-     ratingsQuantity: stats[0]['nRating'],
-     ratingsAverage: stats[0]['avgRating']
-   })
+   if (stats.length >= 1) {
+     await Tour.findByIdAndUpdate(tourId, {
+       ratingsQuantity: stats[0]['nRating'],
+       ratingsAverage: stats[0]['avgRating']
+     });
+   } else {
+     await Tour.findByIdAndUpdate(tourId, {
+       ratingsQuantity: 0,
+       ratingsAverage: 4.5
+     });
+   }
 }
 
 reviewSchema.post('save', function() {
   // this points to current document being saved i.e current review
   this.constructor.calcAverageRatings(this.tour);
+});
+
+// findByIdAndUpdate/ Delete only have query middleware & not model middleware
+reviewSchema.pre(/^findOneAnd/, async function(next) {
+  this.currentReview = await this.findOne();
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function() {
+  // await this.findOne(); DOESNT work here, query has already executed
+  await this.currentReview.constructor.calcAverageRatings(this.currentReview.tour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
