@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -8,15 +9,21 @@ const hpp = require('hpp');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controllers/errorController');
-
-const app = express();
 const toursRouter = require('./routes/toursRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
 
+const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 /********************************************* MIDDLEWARES *********************************************/
 
 // GLOBAL MIDDLEWARES
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
@@ -50,9 +57,6 @@ app.use(hpp({
   whitelist
 }));
 
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
-
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -61,6 +65,13 @@ app.use((req, res, next) => {
 })
 
 // router middleware
+app.get('/', (req, res) => {
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Jonas'
+  });
+});
+
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/reviews', reviewRouter);
