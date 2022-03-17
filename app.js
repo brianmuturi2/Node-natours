@@ -12,6 +12,7 @@ const errorController = require('./controllers/errorController');
 const toursRouter = require('./routes/toursRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
+const viewRouter = require('./views/viewRoutes');
 
 const app = express();
 
@@ -64,26 +65,9 @@ app.use((req, res, next) => {
   next();
 })
 
-// router middleware
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    tour: 'The Forest Hiker',
-    user: 'Jonas'
-  });
-});
+// Mount Routes
 
-app.get('/overview', (req, res) => {
-  res.status(200).render('overview', {
-    title: 'All Tours'
-  });
-});
-
-app.get('/tour', (req, res) => {
-  res.status(200).render('tour', {
-    title: 'The Forest Hiker'
-  });
-});
-
+app.use('/', viewRouter);
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/reviews', reviewRouter);
