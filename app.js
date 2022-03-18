@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controllers/errorController');
@@ -27,7 +29,31 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
-app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'", 'data:', 'blob:'],
+
+    imgSrc: ["'self'", 'data:', 'blob:'],
+
+    workerSrc: ["'self'", 'data:', 'blob:'],
+
+    childSrc: ["'self'", 'data:', 'blob:'],
+
+    fontSrc: ["'self'", 'https:', 'data:'],
+
+    scriptSrc: ["'self'", 'unsafe-inline'],
+
+    scriptSrc: ["'self'", 'https://*.cloudflare.com'],
+
+    scriptSrcElem: ["'self'",'https:', 'https://*.cloudflare.com'],
+
+    styleSrc: ["'self'", 'https:', 'unsafe-inline'],
+
+    connectSrc: ["'self'", 'data', 'https://*.cloudflare.com', 'http://127.0.0.1:*', 'http://localhost:*', 'https://*.tiles.mapbox.com', 'https://api.mapbox.com', 'https://events.mapbox.com']
+  },
+}));
+
+app.use(cors());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -45,6 +71,7 @@ app.use('/api', limiter);
 // Body parser, reading data from body into req.body
 // Limit body size
 app.use(express.json({limit: '10kb'}));
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -61,7 +88,7 @@ app.use(hpp({
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.headers);
+  console.log(req.cookies);
   next();
 })
 
