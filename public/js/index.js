@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { displayMap } from './mapbox';
+import { updateData} from './updateSettings';
 
 // DOM ELEMENTS
 
@@ -9,6 +10,8 @@ const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
+const name = document.getElementById('name');
+const updateUserForm = document.querySelector('.form-user-data');
 
 // DELEGATION
 
@@ -28,3 +31,9 @@ if (logOutBtn) {
   logOutBtn.addEventListener('click', logout);
 }
 
+if (updateUserForm) {
+  updateUserForm.addEventListener('submit', e => {
+    e.preventDefault();
+    updateData(name.value, email.value);
+  });
+}
