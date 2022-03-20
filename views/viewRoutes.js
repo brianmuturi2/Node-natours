@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/me', authController.protect, viewsController.getAccount);
 
+router.post('/submit-user-data', authController.protect, viewsController.updateUserData)
+
 router.use(authController.isLoggedIn);
 
 router.get('/login', viewsController.getLoginForm);
@@ -13,5 +15,7 @@ router.get('/login', viewsController.getLoginForm);
 router.get('/', viewsController.getOverview);
 
 router.get('/tour/:slug', viewsController.getTour);
+
+
 
 module.exports = router;
