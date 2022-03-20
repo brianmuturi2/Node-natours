@@ -120,7 +120,7 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
     // Make user available in template
     res.locals.user = currentUser;
     return next();
-  } next();
+  } return next();
 });
 
 exports.restrictTo = (...roles) => {

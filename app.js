@@ -49,7 +49,7 @@ app.use(helmet.contentSecurityPolicy({
 
     styleSrc: ["'self'", 'https:', 'unsafe-inline'],
 
-    connectSrc: ["'self'", 'data', 'https://*.cloudflare.com', 'http://127.0.0.1:*', 'http://localhost:*', 'https://*.tiles.mapbox.com', 'https://api.mapbox.com', 'https://events.mapbox.com']
+    connectSrc: ["'self'", 'data', 'https://*.cloudflare.com', 'ws://127.0.0.1:*', 'http://127.0.0.1:*', 'http://localhost:*', 'https://*.tiles.mapbox.com', 'https://api.mapbox.com', 'https://events.mapbox.com']
   },
 }));
 
