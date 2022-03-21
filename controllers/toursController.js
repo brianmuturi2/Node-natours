@@ -1,3 +1,5 @@
+const multer = require('multer');
+const sharp = require('sharp');
 const fs = require('fs');
 const Tour = require('../models/TourModel');
 const APIFeatures = require('../utils/ApiFeatures');
@@ -12,6 +14,35 @@ exports.aliasTopTours = (req, res, next) => {
   req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
   next();
 };
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, callback) => {
+  if (file.mimetype.startsWith('image')) {
+    callback(null, true)
+  } else {
+    callback(new AppError('Not an image! Please upload only images.', 400), false);
+  }
+}
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+}); // not specifying the directory will save the image in memory
+
+// multiple fields with single/multiple images
+exports.uploadTourImages = upload.fields([
+  {name: 'imageCover', maxCount: 1},
+  {name: 'images', maxCount: 3}
+]);
+
+// one field with multiple images
+// upload.array('images', 5);
+
+exports.resizeTourImages = (req, res, next) => {
+  console.log(req.files);
+  next();
+}
 
 /********************************************* IO OPERATIONS *********************************************/
 
