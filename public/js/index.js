@@ -13,6 +13,7 @@ const password = document.getElementById('password');
 const passwordCurrent = document.getElementById('password-current');
 const passwordConfirm = document.getElementById('password-confirm');
 const name = document.getElementById('name');
+const photo = document.getElementById('photo');
 const updateUserForm = document.querySelector('.form-user-data');
 const updatePasswordForm = document.querySelector('.form-user-settings');
 
@@ -37,7 +38,12 @@ if (logOutBtn) {
 if (updateUserForm) {
   updateUserForm.addEventListener('submit', e => {
     e.preventDefault();
-    updateData({name: name.value, email: email.value}, 'data');
+
+    const form = new FormData();
+    form.set('name', name.value);
+    form.set('email', email.value);
+    form.set('photo', photo.files[0]);
+    updateData(form, 'data');
   });
 }
 
