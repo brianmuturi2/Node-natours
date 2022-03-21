@@ -1,11 +1,12 @@
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/userModel');
 const APIFeatures = require('../utils/ApiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const factory = require('./handlerFactory');
 
-const multerStorage = multer.diskStorage({
+/*const multerStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'public/img/users');
   },
@@ -13,7 +14,8 @@ const multerStorage = multer.diskStorage({
     const ext = file.mimetype.split('/')[1];
     callback(null, `user-${req.user.id}-${Date.now()}.${ext}`);
   }
-});
+});*/
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, callback) => {
   if (file.mimetype.startsWith('image')) {
@@ -29,6 +31,20 @@ const upload = multer({
 }); // not specifying the directory will save the image in memory
 
 exports.uploadUserPhoto = upload.single('photo');
+
+exports.resizeUserPhoto = (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`
+
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({quality: 90})
+    .toFile(`public/img/users/${req.file.filename}`);
+
+  next();
+}
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
