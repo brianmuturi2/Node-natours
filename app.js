@@ -17,6 +17,8 @@ const reviewRouter = require('./routes/reviewsRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./views/viewRoutes');
 
+const compression = require('compression');
+
 const app = express();
 
 app.set('view engine', 'pug');
@@ -86,6 +88,8 @@ const whitelist = ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSiz
 app.use(hpp({
   whitelist
 }));
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
