@@ -6,8 +6,6 @@ stages:
 build:
     stage: build
     script:
-        - apt update -y
-        - apt install npm -y
         - npm install
     artifacts:
         paths:
@@ -18,6 +16,4 @@ build:
 deploy:
     stage: deploy
     script:
-        - apt update -y
-        - apt install nodejs -y
         - node server.js  > /dev/null 2>&1 &
