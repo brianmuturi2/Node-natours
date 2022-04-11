@@ -9,6 +9,11 @@ build:
         - apt update -y
         - apt install npm -y
         - npm install
+    artifacts:
+        paths:
+            - node_modules
+            - package-lock.json
+        #expire_in: 1 week 
 
 deploy:
     stage: deploy
