@@ -20,4 +20,4 @@ deploy:
     script:
         - apt update -y
         - apt install nodejs -y
-        - node server.js
+        - node server.js  > /dev/null 2>&1 &
