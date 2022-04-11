@@ -1,10 +1,16 @@
+stages:
+    - build
+    - deploy
+
 build:
+    stage: build
     script:
         - apt update -y
         - apt install npm -y
         - npm install
 
 deploy:
+    stage: deploy
     script:
         - apt update -y
         - apt install nodejs -y
