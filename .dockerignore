@@ -1,0 +1,2 @@
+# prevent node modules directory being copied to container, will be recreated automatically when npm install is executed
+node_modules
