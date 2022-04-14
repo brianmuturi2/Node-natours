@@ -1,9 +1,9 @@
 stages:
-    - containerization_stage
+    - build_stage
     - deploy_stage
 
-containerization:
-    stage: containerization_stage
+build:
+    stage: build_stage
     script:
         - docker --version
         - docker build -t nodeapp . # build image using docker file in same directory with name nodeapp
