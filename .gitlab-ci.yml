@@ -1,19 +1,20 @@
-image: node:latest
 stages:
-    - build
-    - deploy
+    - containerization_stage
+    - deploy_stage
 
-build:
-    stage: build
+containerization:
+    stage: containerization_stage
     script:
-        - npm install
-    artifacts:
-        paths:
-            - node_modules
-            - package-lock.json
-        #expire_in: 1 week 
+        - docker --version
+        - docker build -t nodeapp . # build image using docker file in same directory with name nodeapp
+    tags:
+        - localshell # tag local runner
+        - localrunner # tag local runner
 
 deploy:
-    stage: deploy
+    stage: deploy_stage
     script:
-        - node server.js  > /dev/null 2>&1 &
+        - docker run -d --name nodeappcontainer -p 3000:8080 nodeapp
+    tags:
+        - localshell
+        - localrunner
