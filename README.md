@@ -133,7 +133,8 @@ The following are the features implemented in the application.
 * Authentication with JWT
 * Authorization (user roles)
 * Sending emails with mailtrap and sendgrid
-*  Server side website rendering with pug (still in progress)
+* Server side website rendering with pug (still in progress)
+* Gitlab CI/CD
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
