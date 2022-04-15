@@ -1,21 +1,50 @@
 stages:
     - build_stage
-    - deploy_stage
+    - deploy_staging_stage
+    - release_stage
+
+variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/nodeapp:$CI_COMMIT_REF_SLUG
+    STAGING_APP: node-natours-staging
+    HEROKU_STAGING: "registry.heroku.com/$STAGING_APP/web"
 
 build:
+    image: docker:latest
+    services:
+        - docker:dind
     stage: build_stage
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     script:
-        - docker --version
-        - docker build -t nodeapp . # build image using docker file in same directory with name nodeapp
+        - docker build -t $IMAGE_TAG . # build image using docker file in same directory with name nodeapp
+        - docker push $IMAGE_TAG
     tags:
         - localshell # tag local runner
         - localrunner # tag local runner
 
 deploy:
-    stage: deploy_stage
+    image: docker:latest
+    services:
+        - docker:dind
+    stage: deploy_staging_stage
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     script:
-        - docker stop nodeappcontainer || true && docker rm nodeappcontainer || true
-        - docker run -d --name nodeappcontainer -p 3000:8080 nodeapp
+        - docker pull $IMAGE_TAG
+        - docker tag $IMAGE_TAG $HEROKU_STAGING
+        - docker login -u _ -p $HEROKU_STAGING_API_KEY registry.heroku.com
+        - docker push $HEROKU_STAGING
+        - docker run --rm -e HEROKU_API_KEY=$HEROKU_STAGING_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $STAGING_APP
+        -
     tags:
         - localshell
         - localrunner
+
+#release:
+#    image: node:latest
+#    stage: release_stage
+#    before_script:
+#        - npm install -g heroku
+#    script:
+#        - HEROKU_API_KEY=$HEROKU_STAGING_API_KEY heroku container:release web --app $STAGING_APP
+#        - echo "App deployed to staging server at https://$STAGING_APP.herokuapp.com/"
