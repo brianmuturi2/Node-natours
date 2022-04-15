@@ -35,7 +35,6 @@ deploy:
         - docker login -u _ -p $HEROKU_STAGING_API_KEY registry.heroku.com
         - docker push $HEROKU_STAGING
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_STAGING_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $STAGING_APP
-        -
     tags:
         - localshell
         - localrunner
