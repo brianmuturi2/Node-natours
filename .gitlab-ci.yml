@@ -43,7 +43,7 @@ deploy:
         - localshell
         - localrunner
     only:
-        staging
+        - staging
 
 test_stage:
     image: alpine
@@ -73,7 +73,7 @@ deploy_production:
         - localshell
         - localrunner
     only:
-        main
+        - main
 
 #release:
 #    image: node:latest
