@@ -6,7 +6,7 @@ stages:
     - deploy_production_stage
 
 variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE/nodeapp:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/nodeapp:$CI_COMMIT_SHORT_SHA
     STAGING_APP: node-natours-staging
     PROD_APP: node-natours-prod
     HEROKU_STAGING: "registry.heroku.com/$STAGING_APP/web"
