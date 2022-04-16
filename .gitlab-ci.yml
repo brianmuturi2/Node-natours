@@ -2,6 +2,7 @@ stages:
     - build_stage
     - deploy_staging_stage
     - release_stage
+    - automated_testing
 
 variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/nodeapp:$CI_COMMIT_REF_SLUG
@@ -38,6 +39,14 @@ deploy:
     tags:
         - localshell
         - localrunner
+
+test_stage:
+    image: alpine
+    stage: automated_testing
+    before_script:
+        - apk --no-cache add curl
+    script:
+        - curl https://$STAGING_APP.herokuapp.com/ | grep "Node Natours"
 
 #release:
 #    image: node:latest
