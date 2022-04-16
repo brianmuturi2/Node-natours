@@ -53,7 +53,7 @@ test_stage:
     script:
         - curl https://$STAGING_APP.herokuapp.com/ | grep "Node Natours"
     only:
-        staging
+        - staging
 
 deploy_production:
     image: docker:latest
