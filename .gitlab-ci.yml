@@ -36,6 +36,7 @@ deploy_feature:
     environment:
         name: review/$CI_COMMIT_REF_NAME
         url: https://$CI_ENVIRONMENT_SLUG.herokuapp.com/
+        on_stop: stop_feature
     before_script:
         - export FEAT_APP= $CI_ENVIRONMENT_SLUG
         - export  HEROKU_FEAT= "registry.heroku.com/$FEAT_APP/web"
@@ -57,6 +58,22 @@ deploy_feature:
     except:
         - main
         - staging
+
+stop_feature:
+    image: docker:latest
+    services:
+        - docker:dind
+    stage: deploy_feature
+    variables:
+        GIT_STRATEGY: none
+    environment:
+        name: review/$CI_COMMIT_REF_NAME
+        action: stop
+    before_script:
+        - export FEAT_APP= $CI_ENVIRONMENT_SLUG
+    script:
+        - docker run --rm -e HEROKU_API_KEY=$HEROKU_STAGING_API_KEY wingrunr21/alpine-heroku-cli apps:destroy --app $FEAT_APP --confirm $FEAT_APP
+    when: manual
 
 test_feat:
     image: alpine
