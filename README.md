@@ -30,10 +30,8 @@
 
   <p align="center">
     A node js restful API and server side rendered tours website.
-    <br />
-    
+    <br />    
     <!--
-    
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
