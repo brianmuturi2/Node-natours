@@ -31,7 +31,7 @@
   <p align="center">
     A node js restful API and server side rendered tours website.
     <br />
-    <a href="https://node-natours-prod.herokuapp.com/"><strong>Go to App »</strong></a>
+    
     <!--
     
     <br />
@@ -44,8 +44,8 @@
     -->
   </p>
 </div>
-
-
+<a href="https://node-natours-prod.herokuapp.com/"><strong>Go to App »</strong></a>
+<br />
 
 <!-- TABLE OF CONTENTS -->
 <details>
