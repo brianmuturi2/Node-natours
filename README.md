@@ -22,7 +22,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/brianmuturi2/Node-natours">
+  <a href="https://node-natours-prod.herokuapp.com/">
     <img src="public/img/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -66,6 +66,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="https://node-natours-prod.herokuapp.com/">Go to app</a></li>    
   </ol>
 </details>
 
