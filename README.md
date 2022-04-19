@@ -31,8 +31,9 @@
   <p align="center">
     A node js restful API and server side rendered tours website.
     <br />
+    <a href="https://node-natours-prod.herokuapp.com/"><strong>Go to App »</strong></a>
     <!--
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
