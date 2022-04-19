@@ -42,7 +42,7 @@
     -->
   </p>
 </div>
-<a href="https://node-natours-prod.herokuapp.com/"><strong>Go to App »</strong></a>
+<a href="https://node-natours-prod.herokuapp.com/" align="center"><strong>Go to App »</strong></a>
 <br />
 
 <!-- TABLE OF CONTENTS -->
