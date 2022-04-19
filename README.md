@@ -22,7 +22,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/brianmuturi2/Node-natours">
+  <a href="https://node-natours-prod.herokuapp.com/">
     <img src="public/img/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -30,9 +30,8 @@
 
   <p align="center">
     A node js restful API and server side rendered tours website.
-    <br />
+    <br />    
     <!--
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
@@ -43,8 +42,8 @@
     -->
   </p>
 </div>
-
-
+<a href="https://node-natours-prod.herokuapp.com/" align="center"><strong>Go to App »</strong></a>
+<br />
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -66,6 +65,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="https://node-natours-prod.herokuapp.com/">Go to app</a></li>    
   </ol>
 </details>
 
